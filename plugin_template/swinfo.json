@@ -6,7 +6,7 @@
   "description": "Hide parts from the OAB parts picker.",
   "source": "https://github.com/Safarte/SpringCleaning",
   "version": "0.1.0",
-  "version_check": "",
+  "version_check": "https://raw.githubusercontent.com/Safarte/SpringCleaning/main/plugin_template/swinfo.json",
   "ksp2_version": {
     "min": "0.2.0",
     "max": "*"
@@ -16,6 +16,20 @@
       "id": "com.github.x606.spacewarp",
       "version": {
         "min": "1.8.0",
+        "max": "*"
+      }
+    },
+    {
+      "id": "premonition",
+      "version": {
+        "min": "0.2.0",
+        "max": "*"
+      }
+    },
+    {
+      "id": "UitkForKsp2",
+      "version": {
+        "min": "2.4.0",
         "max": "*"
       }
     }

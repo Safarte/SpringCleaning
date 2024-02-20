@@ -1,11 +1,16 @@
 using System.Reflection;
 using BepInEx;
+using BepInEx.Logging;
 using JetBrains.Annotations;
+using KSP.Game;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SpaceWarp;
 using SpaceWarp.API.Assets;
 using SpaceWarp.API.Mods;
 using SpaceWarp.API.UI.Appbar;
 using SpringCleaning.UI;
+using SpringCleaning.Utilities;
 using UitkForKsp2.API;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -25,6 +30,9 @@ public class SpringCleaningPlugin : BaseSpaceWarpPlugin
     [PublicAPI]
     public static SpringCleaningPlugin Instance { get; set; }
 
+    // Logger
+    public new static ManualLogSource Logger { get; set; }
+
     // AppBar button IDs
     internal const string ToolbarOabButtonID = "BTN-SpringCleaningOAB";
 
@@ -36,6 +44,7 @@ public class SpringCleaningPlugin : BaseSpaceWarpPlugin
         base.OnInitialized();
 
         Instance = this;
+        Logger = base.Logger;
 
         // // Load all the other assemblies used by this mod
         // LoadAssemblies();
@@ -60,17 +69,27 @@ public class SpringCleaningPlugin : BaseSpaceWarpPlugin
         //     AssetManager.GetAsset<Texture2D>($"{ModGuid}/images/icon.png"),
         //     isOpen => springCleaningUiController.IsWindowOpen = isOpen
         // );
+
+        GameManager.Instance.Assets.LoadByLabel<TextAsset>("spring_cleaning", RegisterPartToHide,
+            assets => { GameManager.Instance.Assets.ReleaseAsset(assets); });
     }
 
-    /// <summary>
-    /// Loads all the assemblies for the mod.
-    /// </summary>
-    private static void LoadAssemblies()
+    private static void RegisterPartToHide(TextAsset asset)
     {
-        // Load the Unity project assembly
-        var currentFolder = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory!.FullName;
-        var unityAssembly = Assembly.LoadFrom(Path.Combine(currentFolder, "SpringCleaning.Unity.dll"));
-        // Register any custom UI controls from the loaded assembly
-        CustomControls.RegisterFromAssembly(unityAssembly);
+        var data = JsonConvert.DeserializeObject<PartCleaningData>(asset.text);
+        if (data.Hidden)
+            Patches.PartsToHide.Add(data.PartId);
     }
+
+    // /// <summary>
+    // /// Loads all the assemblies for the mod.
+    // /// </summary>
+    // private static void LoadAssemblies()
+    // {
+    //     // Load the Unity project assembly
+    //     var currentFolder = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory!.FullName;
+    //     var unityAssembly = Assembly.LoadFrom(Path.Combine(currentFolder, "SpringCleaning.Unity.dll"));
+    //     // Register any custom UI controls from the loaded assembly
+    //     CustomControls.RegisterFromAssembly(unityAssembly);
+    // }
 }

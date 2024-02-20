@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 namespace SpringCleaning.UI;
 
 /// <summary>
-/// Controller for the MyFirstWindow UI.
+/// Controller for the SpringCleaning UI.
 /// </summary>
 public class SpringCleaningUIController : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class SpringCleaningUIController : MonoBehaviour
 
     // The elements of the window that we need to access
     private VisualElement _rootElement;
-    
+
     // The backing field for the IsWindowOpen property
     private bool _isWindowOpen;
 
