@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: e499f75e7a792024abcdb371cbccb66e
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: springcleaning_ui.bundle
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}
